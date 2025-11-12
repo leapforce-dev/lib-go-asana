@@ -18,6 +18,7 @@ type Task struct {
 	Id                    string                  `json:"gid"`
 	ResourceType          string                  `json:"resource_type"`
 	Name                  string                  `json:"name"`
+	ActualTimeMinutes     *int64                  `json:"actual_time_minutes"`
 	ApprovalStatus        string                  `json:"approval_status"`
 	AssigneeStatus        string                  `json:"assignee_status"`
 	Completed             bool                    `json:"completed"`
@@ -40,6 +41,7 @@ type Task struct {
 	NumLikes              int64                   `json:"num_likes"`
 	NumSubtasks           int64                   `json:"num_subtasks"`
 	ResourceSubtype       string                  `json:"resource_subtype"`
+	StartAt               *a_types.DateTimeString `json:"start_at"`
 	StartOn               *a_types.DateString     `json:"start_on"`
 	Assignee              Object                  `json:"assignee"`
 	CustomFields          []CustomFieldTask       `json:"custom_fields"`
