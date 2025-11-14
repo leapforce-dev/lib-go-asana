@@ -3,6 +3,7 @@ package asana
 import (
 	"cloud.google.com/go/civil"
 	"fmt"
+	a_types "github.com/leapforce-libraries/go_asana/types"
 	errortools "github.com/leapforce-libraries/go_errortools"
 	go_http "github.com/leapforce-libraries/go_http"
 	"net/url"
@@ -10,18 +11,24 @@ import (
 
 // TimeTrackingEntry stores TimeTrackingEntry from Service
 type TimeTrackingEntry struct {
-	Id              string     `json:"gid"`
-	ResourceType    string     `json:"resource_type"`
-	DurationMinutes int        `json:"duration_minutes"`
-	CreatedBy       Object     `json:"created_by"`
-	AttributableTo  Object     `json:"attributable_to"`
-	EnteredOn       civil.Date `json:"entered_on"`
+	Id              string                 `json:"gid"`
+	ResourceType    string                 `json:"resource_type"`
+	DurationMinutes int                    `json:"duration_minutes"`
+	CreatedBy       Object                 `json:"created_by"`
+	Task            Object                 `json:"task"`
+	AttributableTo  Object                 `json:"attributable_to"`
+	EnteredOn       civil.Date             `json:"entered_on"`
+	CreatedAt       a_types.DateTimeString `json:"created_at"`
+	ApprovalStatus  string                 `json:"approval_status"`
+	BillableStatus  string                 `json:"billable_status"`
+	Description     string                 `json:"description"`
 }
 
 type GetTimeTrackingEntriesConfig struct {
 	WorkspaceID        string
 	EnteredOnStartDate civil.Date
 	EnteredOnEndDate   civil.Date
+	OptFields          string
 }
 
 // GetTimeTrackingEntries returns all timeTrackingEntries
@@ -36,6 +43,9 @@ func (service *Service) GetTimeTrackingEntries(config *GetTimeTrackingEntriesCon
 	params.Set("workspace", config.WorkspaceID)
 	params.Set("entered_on_start_date", config.EnteredOnStartDate.String())
 	params.Set("entered_on_end_date", config.EnteredOnEndDate.String())
+	if config.OptFields != "" {
+		params.Set("opt_fields", config.OptFields)
+	}
 
 	for {
 		var _timeTrackingEntries []TimeTrackingEntry
