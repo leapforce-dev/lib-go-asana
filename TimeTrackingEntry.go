@@ -40,6 +40,7 @@ func (service *Service) GetTimeTrackingEntries(config *GetTimeTrackingEntriesCon
 	var timeTrackingEntries []TimeTrackingEntry
 
 	params := url.Values{}
+	params.Set("limit", "100")
 	params.Set("workspace", config.WorkspaceID)
 	params.Set("entered_on_start_date", config.EnteredOnStartDate.String())
 	params.Set("entered_on_end_date", config.EnteredOnEndDate.String())
